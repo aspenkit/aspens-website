@@ -34,8 +34,10 @@ export default defineConfig({
 					label: 'Guides',
 					items: [
 						{ label: 'Skills', slug: 'guides/skills' },
+						{ label: 'Bundled Agents', slug: 'guides/agents' },
 						{ label: 'Target Support', slug: 'guides/target-support' },
 						{ label: 'Save Tokens', slug: 'guides/save-tokens' },
+						{ label: 'FAQ', slug: 'guides/faq' },
 					],
 				},
 				{
@@ -46,6 +48,12 @@ export default defineConfig({
 					label: 'Changelog',
 					items: [
 						{ label: 'Changelog', slug: 'changelog/changelog' },
+					],
+				},
+				{
+					label: 'Community',
+					items: [
+						{ label: 'Contributing', slug: 'guides/contributing' },
 					],
 				},
 			],

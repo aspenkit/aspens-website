@@ -4,6 +4,7 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://aspenkit.dev',
 	integrations: [
 		starlight({
 			title: 'aspens',
@@ -11,14 +12,20 @@ export default defineConfig({
 				src: './src/assets/aspens-logo.png',
 				replacesTitle: false,
 			},
+			favicon: '/favicon.png',
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/aspenkit/aspens' },
 			],
 			customCss: ['./src/styles/custom.css'],
+			lastUpdated: true,
+			editLink: {
+				baseUrl: 'https://github.com/aspenkit/aspens-website/edit/main/',
+			},
+			credits: true,
 			head: [
 				{
-					tag: 'meta',
-					attrs: { property: 'og:image', content: '/og-image.png' },
+					tag: 'link',
+					attrs: { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
 				},
 			],
 			sidebar: [

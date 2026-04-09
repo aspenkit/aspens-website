@@ -1,0 +1,93 @@
+---
+title: aspens
+description: Repo context for coding agents that does not go stale. For Claude Code and Codex.
+template: splash
+hero:
+  tagline: Repo context for coding agents that does not go stale.
+  image:
+    file: ../../assets/aspens-logo.png
+  actions:
+    - text: Get Started
+      link: /guides/quick-start/
+      icon: right-arrow
+    - text: View on GitHub
+      link: https://github.com/aspenkit/aspens
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Why aspens?
+
+| Without aspens | With aspens |
+|---|---|
+| Agents miss conventions and architectural boundaries | Agents start from repo-specific instructions |
+| New sessions waste time rediscovering key files | Skills point to the right files, patterns, and rules |
+| Context files drift after code changes | Aspens syncs them from the codebase |
+| Teams keep correcting the same mistakes manually | Critical conventions and anti-patterns stay in generated context |
+
+## What it does
+
+<CardGrid>
+	<Card title="Scan" icon="magnifier">
+		Map the repo: domains, hub files, import graph, tech stack. Deterministic — no LLM, instant, free.
+	</Card>
+	<Card title="Generate" icon="document">
+		Write instructions and skills for Claude Code, Codex, or both. Parallel discovery and generation.
+	</Card>
+	<Card title="Sync" icon="refresh">
+		Keep generated context fresh. On each commit, aspens reads the diff and updates only what changed.
+	</Card>
+	<Card title="Prove" icon="approve-check">
+		Verify coverage, freshness, and drift with `aspens doc impact`. Know your context is working.
+	</Card>
+</CardGrid>
+
+## Start here
+
+```bash
+npx aspens doc init --recommended
+npx aspens doc impact
+```
+
+Generate context, then verify it covers your repo.
+
+## What are skills?
+
+Concise markdown files (~35 lines) that give coding agents the context they need to write correct code: key files, patterns, conventions, and critical rules.
+
+```markdown
+---
+name: billing
+description: Stripe billing — subscriptions, usage tracking, webhooks
+---
+
+## Activation
+This skill triggers when editing billing/payment-related files:
+- `**/billing*.ts`
+- `**/stripe*.ts`
+
+---
+
+## Key Files
+- `src/services/billing/stripe.ts` — Stripe SDK wrapper
+- `src/services/billing/usage.ts` — Usage counters and limit checks
+
+## Key Concepts
+- **Webhook-driven:** Subscription state changes come from Stripe webhooks
+- **Usage gating:** `checkLimit(userId, type)` returns structured 429 error data
+
+## Critical Rules
+- Webhook endpoint has NO auth middleware — verified by Stripe signature only
+- Cancel = `cancel_at_period_end: true` (user keeps access until period end)
+```
+
+## Requirements
+
+- **Node.js 20+**
+- **Claude Code CLI** or **Codex CLI** (at least one backend)
+
+## License
+
+MIT — [view on GitHub](https://github.com/aspenkit/aspens/blob/main/LICENSE).

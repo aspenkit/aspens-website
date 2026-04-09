@@ -40,6 +40,14 @@
 	font-size: 0.9rem;
 }
 
+/* Demo GIF */
+.sl-markdown-content img[alt*="demo"] {
+	max-width: 640px;
+	width: 100%;
+	border-radius: 0.5rem;
+	border: 1px solid var(--sl-color-gray-5);
+}
+
 /* Code blocks in docs */
 .sl-markdown-content pre {
 	border-radius: 0.5rem;

@@ -21,7 +21,7 @@ export default defineConfig({
 			social: [],
 			customCss: ['./src/styles/custom.css'],
 			lastUpdated: true,
-			credits: true,
+			credits: false,
 			head: [
 				{
 					tag: 'link',

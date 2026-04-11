@@ -5,17 +5,17 @@ description: Get aspens running in your repo in under 5 minutes.
 
 import { Steps, Tabs, TabItem, Aside, FileTree } from '@astrojs/starlight/components';
 
-## Install
+## Before you run it
 
 aspens runs via `npx` — no global install needed. Requires [Node.js 20+](https://nodejs.org) and at least one backend CLI.
 
-## One-command setup
+## Fastest setup
 
 ```bash
 npx aspens doc init --recommended
 ```
 
-`--recommended` is the fastest path:
+This is the actual setup command. `--recommended` is the fastest path:
 
 - Reuses existing target config when present
 - Defaults to improving existing docs instead of prompting
@@ -26,25 +26,26 @@ npx aspens doc init --recommended
 
 <Steps>
 
-1. **Map the repo** (optional — just to see what aspens finds)
+1. **Map the repo** (optional — just to see what aspens finds. Note, this is a rough scan, for precise mapping and domain discovery we use an LLM.)
 
    ```bash
    npx aspens scan
    ```
 
-2. **Generate** the recommended context setup
+2. **Run the setup** If you want to customize the setup, run without `--recommended` and follow the prompts. Later, you also need to manually add 
+(1) agents, (2) doc sync hook, and (3) save-tokens hooks if you want those features. Also, by default --recommended will prioritize Claude (unless only Codex Cli is installed). You will need to run `doc init --target=codex` to get the Codex agent and commands as well.
 
    ```bash
    npx aspens doc init --recommended
    ```
 
-3. **Verify** freshness and coverage
+3. **Verify** freshness and coverage. This run a quick scan, checks if you docs are stale, or if you are missing useful funcitonality that aspens offers.
 
    ```bash
    npx aspens doc impact
    ```
 
-4. **Keep it synced** on every commit
+4. **Keep it synced** on every commit. This is really the bread and butter of aspens — it keeps your docs up to date as your code evolves. You can run this manually, but we recommend installing the git hook so it runs automatically.
 
    ```bash
    npx aspens doc sync --install-hook

@@ -3,6 +3,21 @@ title: Changelog
 description: Release history for aspens.
 ---
 
+## [0.7.0] - 2026-04-10
+
+### Added
+- **`aspens doc impact`** — context health dashboard with freshness, coverage, drift detection, and interactive repair guidance
+- **`aspens save-tokens`** — full save-tokens setup with prompt guards, precompact handoffs, statusline telemetry, and handoff commands
+
+### Changed
+- **Chunked doc generation** — asks once up front and writes incrementally so progress survives failures
+- **Target persistence** — improved subdirectory and monorepo handling across doc generation and impact flows
+
+### Fixed
+- Codex CLI compatibility — detects supported flags instead of assuming `--ask-for-approval` exists
+
+---
+
 ## [0.6.0] - 2026-04-07
 
 ### Changed

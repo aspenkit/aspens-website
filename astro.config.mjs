@@ -8,14 +8,17 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'aspens',
+			components: {
+				Search: './src/components/TopNav.astro',
+				ThemeSelect: './src/components/ThemeKill.astro',
+				Footer: './src/components/Footer.astro',
+			},
 			logo: {
 				src: './src/assets/aspens-logo.png',
 				replacesTitle: false,
 			},
-			favicon: '/favicon.png',
-			social: [
-				{ icon: 'github', label: 'GitHub', href: 'https://github.com/aspenkit/aspens' },
-			],
+			favicon: '/favicon-32.png',
+			social: [],
 			customCss: ['./src/styles/custom.css'],
 			lastUpdated: true,
 			editLink: {
@@ -52,6 +55,16 @@ export default defineConfig({
 					autogenerate: { directory: 'commands' },
 				},
 				{
+					label: 'Deep Dives',
+					items: [
+						{ label: 'Token Savings', slug: 'guides/token-savings' },
+						{ label: 'Architecture', slug: 'guides/architecture' },
+						{ label: 'Product Decisions', slug: 'guides/product-decisions' },
+						{ label: 'Origin Story', slug: 'guides/origin-story' },
+						{ label: 'Roadmap', slug: 'guides/roadmap' },
+					],
+				},
+			{
 					label: 'Changelog',
 					items: [
 						{ label: 'Changelog', slug: 'changelog/changelog' },

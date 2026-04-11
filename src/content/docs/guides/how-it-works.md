@@ -25,7 +25,7 @@ It detects:
 
 ## 2. Import graph
 
-aspens parses imports across JS/TS/Python files using [es-module-lexer](https://github.com/nicolo-ribaudo/es-module-lexer):
+aspens parses imports across JS/TS/Python files using [es-module-lexer](https://github.com/guybedford/es-module-lexer):
 
 - **Hub files** — most-imported files, ranked by fan-in
 - **Domain clustering** — groups files by import relationships (connected components)

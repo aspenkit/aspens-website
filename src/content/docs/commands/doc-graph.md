@@ -33,7 +33,6 @@ npx aspens doc graph [path]
 | Option | Description |
 |---|---|
 | `--verbose` | Show diagnostic output |
-| `--remove` | Remove graph artifacts from the repo |
 
 ## Graph context hook
 

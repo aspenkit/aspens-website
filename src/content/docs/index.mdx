@@ -1,157 +1,238 @@
 ---
-title: aspens
-description: Repo context for coding agents that does not go stale. For Claude Code and Codex.
+title: aspens for AI coding teams
+description: Aspenkit gives Claude Code and Codex persistent repo context, generated from your codebase and kept current as the repo changes.
 template: splash
 hero:
-  tagline: Repo context for coding agents that does not go stale.
-  image:
-    file: ../../assets/aspens-logo.png
-  actions:
-    - text: Get Started
-      link: /guides/quick-start/
-      icon: right-arrow
-    - text: View on GitHub
-      link: https://github.com/aspenkit/aspens
-      icon: external
-      variant: minimal
+  tagline: ""
 ---
 
-import { Card, CardGrid, Steps, Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+<div class="hero-shell">
+	<div class="hero-content">
+		<div class="eyebrow-badge">Open source for Claude Code and Codex</div>
+		<h1 class="hero-headline">Give your coding agents the context your repo already has.</h1>
+		<p class="hero-copy">
+			Aspens scans your repo, generates compact agent instructions, and keeps them current as the code changes.
+		</p>
+	</div>
+	<div class="hero-tree">
+		<img src="/favicon.png" alt="" aria-hidden="true" />
+	</div>
+</div>
 
-[![npm version](https://img.shields.io/npm/v/aspens.svg)](https://www.npmjs.com/package/aspens) [![npm downloads](https://img.shields.io/npm/dm/aspens.svg)](https://www.npmjs.com/package/aspens) [![GitHub stars](https://img.shields.io/github/stars/aspenkit/aspens)](https://github.com/aspenkit/aspens) [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/aspenkit/aspens/blob/main/LICENSE)
-
-```bash
-npx aspens doc init --recommended
-```
-
-## Why aspens?
-
-| Without aspens | With aspens |
-|---|---|
-| Agents miss conventions and architectural boundaries | Agents start from repo-specific instructions |
-| New sessions waste time rediscovering key files | Skills point to the right files, patterns, and rules |
-| Context files drift after code changes | Aspens syncs them from the codebase |
-| Teams keep correcting the same mistakes manually | Critical conventions and anti-patterns stay in generated context |
-
-## What it does
-
-<CardGrid>
-	<Card title="Scan" icon="magnifier">
-		Map the repo: domains, hub files, import graph, tech stack. Deterministic — no LLM, instant, free.
-	</Card>
-	<Card title="Generate" icon="document">
-		Write instructions and skills for Claude Code, Codex, or both. Parallel discovery and generation.
-	</Card>
-	<Card title="Sync" icon="refresh">
-		Keep generated context fresh. On each commit, aspens reads the diff and updates only what changed.
-	</Card>
-	<Card title="Prove" icon="approve-check">
-		Verify coverage, freshness, and drift with `aspens doc impact`. Know your context is working.
-	</Card>
-</CardGrid>
-
-## Get running in 4 steps
-
-<Steps>
-
-1. **Scan** the repo to see what aspens finds
-
-   ```bash
-   npx aspens scan
-   ```
-
-2. **Generate** context for your coding agents
-
-   ```bash
-   npx aspens doc init --recommended
-   ```
-
-3. **Verify** the generated context covers your repo
-
-   ```bash
-   npx aspens doc impact
-   ```
-
-4. **Keep it fresh** with auto-sync on every commit
-
-   ```bash
-   npx aspens doc sync --install-hook
-   ```
-
-</Steps>
-
-![aspens demo — doc init and doc impact in action](/demo-full.gif)
-
-## What gets created
-
-<Tabs>
-  <TabItem label="Claude Code">
-    ```
-    .claude/
-      skills/
-        base/skill.md        # Repo-wide context
-        auth/skill.md         # Domain skill
-        billing/skill.md      # Domain skill
-        ...
-      hooks/                  # Activation hooks
-      settings.json           # Skill rules
-    CLAUDE.md                 # Top-level instructions
-    ```
-  </TabItem>
-  <TabItem label="Codex">
-    ```
-    .agents/
-      skills/
-        base/SKILL.md
-        auth/SKILL.md
-        billing/SKILL.md
-        ...
-    AGENTS.md                 # Top-level instructions
-    ```
-  </TabItem>
-</Tabs>
-
-## What are skills?
-
-Concise markdown files (~35 lines) that give coding agents the context they need to write correct code: key files, patterns, conventions, and critical rules.
-
-```markdown
----
-name: billing
-description: Stripe billing — subscriptions, usage tracking, webhooks
----
-
-## Activation
-This skill triggers when editing billing/payment-related files:
-- `**/billing*.ts`
-- `**/stripe*.ts`
+<div class="install-cmd-wrap">
+	<div class="install-cmd">
+		<code>npx aspens install</code>
+		<button type="button" class="install-copy" title="Copy" aria-label="Copy command" data-cmd="npx aspens install">
+			<svg class="icon-copy" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+			<svg class="icon-check" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M3 8l3.5 3.5L13 5"/></svg>
+		</button>
+	</div>
+</div>
 
 ---
 
-## Key Files
-- `src/services/billing/stripe.ts` — Stripe SDK wrapper
-- `src/services/billing/usage.ts` — Usage counters and limit checks
+<section id="product">
 
-## Key Concepts
-- **Webhook-driven:** Subscription state changes come from Stripe webhooks
-- **Usage gating:** `checkLimit(userId, type)` returns structured 429 error data
+## Built for real repositories, not toy prompts
 
-## Critical Rules
-- Webhook endpoint has NO auth middleware — verified by Stripe signature only
-- Cancel = `cancel_at_period_end: true` (user keeps access until period end)
-```
+<p class="section-desc">
+	Aspens maps your repo, identifies the important modules, and generates the structure your agents need to navigate the codebase consistently.
+</p>
 
-## Requirements
+<div class="split-grid">
+	<div class="value-card value-card-dark">
+		<div class="card-kicker">Without aspens</div>
+		<h3>Every session starts blind</h3>
+		<p class='text-white'>Agents miss architecture and waste tokens rediscovering context every run.</p>
+	</div>
+	<div class="value-card">
+		<div class="card-kicker">With aspens</div>
+		<h3>Context is generated once and maintained</h3>
+		<p>Durable instructions, domain skills, and hooks that stay aligned with the code.</p>
+	</div>
+</div>
 
-- **Node.js 20+**
-- **Claude Code CLI** or **Codex CLI** (at least one backend)
+<div class="feature-matrix">
+	<div class="feature-panel">
+		<h3>Repo-aware by default</h3>
+		<p>Detects domains, import hubs, and high-churn areas automatically.</p>
+	</div>
+	<div class="feature-panel">
+		<h3>Compact, usable outputs</h3>
+		<p>Short skills and instructions agents can actually use.</p>
+	</div>
+	<div class="feature-panel">
+		<h3>Works across targets</h3>
+		<p>Generate context for Claude Code and Codex from one scan.</p>
+	</div>
+	<div class="feature-panel">
+		<h3>Stays current over time</h3>
+		<p>Post-commit sync updates only the skills that changed.</p>
+	</div>
+</div>
 
-## Credits
+</section>
 
-Created by [@mvoutov](https://github.com/mvoutov). Originally built as [Orchestrator](https://github.com/BoardKit/orchestrator).
+---
 
-Contributors: [@kzhivotov](https://github.com/kzhivotov)
+<section id="architecture">
 
-## License
+## Architecture of the pipeline
 
-MIT — [view on GitHub](https://github.com/aspenkit/aspens/blob/main/LICENSE).
+<div class="pipeline">
+	<div class="pipeline-group">
+		<div class="pipeline-group-label"><code>aspens doc init</code></div>
+		<div class="pipeline-group-steps">
+			<div class="pipeline-box">Deterministic scan and analysis</div>
+			<div class="pipeline-box">Feeds scan + context + import graph into LLM</div>
+			<div class="pipeline-box">LLM output parse</div>
+			<div class="pipeline-box">Skill writer writes <code>.claude/</code> files</div>
+		</div>
+	</div>
+	<div class="pipeline-group">
+		<div class="pipeline-group-label"><code>aspens doc sync</code></div>
+		<div class="pipeline-group-steps">
+			<div class="pipeline-box">Incrementally updates from git diffs</div>
+		</div>
+	</div>
+	<div class="pipeline-group">
+		<div class="pipeline-group-label"><code>aspens doc impact</code></div>
+		<div class="pipeline-group-steps">
+			<div class="pipeline-box">Checks for freshness / drift</div>
+		</div>
+	</div>
+</div>
+
+</section>
+
+---
+
+<section id="outputs">
+
+## What <code>doc init</code> writes
+
+<div class="file-manifest file-manifest-single">
+	<div class="manifest-group">
+		<div class="manifest-header">Always</div>
+
+		<div class="manifest-sub">CLAUDE.md and skills</div>
+		<ul class="manifest-list">
+			<li><code>CLAUDE.md</code> <span class="manifest-desc">root instructions file</span></li>
+			<li><code>.claude/skills/&lt;name&gt;/skill.md</code> <span class="manifest-desc">generated skill files (one per domain/topic)</span></li>
+			<li><code>.claude/skills/skill-rules.json</code> <span class="manifest-desc">activation rules for skills</span></li>
+			<li><code>.claude/settings.json</code> <span class="manifest-desc">hooks config (merges with existing, backs up to .bak)</span></li>
+			<li><code>.aspens.json</code> <span class="manifest-desc">project config (targets, backend)</span></li>
+		</ul>
+
+		<div class="manifest-sub">Hooks</div>
+		<ul class="manifest-list">
+			<li><code>.claude/hooks/skill-activation-prompt.sh + .mjs</code> <span class="manifest-desc">loads relevant skills per task</span></li>
+			<li><code>.claude/hooks/graph-context-prompt.sh + .mjs</code> <span class="manifest-desc">injects import graph context</span></li>
+			<li><code>.claude/hooks/post-tool-use-tracker.sh</code> <span class="manifest-desc">tracks domain file access</span></li>
+		</ul>
+
+		<div class="manifest-sub">Graph artifacts</div>
+		<ul class="manifest-list">
+			<li><code>.claude/.graph.json</code>, <code>.code-map.md</code>, <code>.index.json</code> <span class="manifest-desc">import graph cache</span></li>
+		</ul>
+
+		<div class="manifest-sub">If Codex target <span class="manifest-flag">--target codex|all</span></div>
+		<ul class="manifest-list">
+			<li><code>AGENTS.md</code> / <code>.agents/AGENTS.md</code> <span class="manifest-desc">Codex instructions</span></li>
+			<li><code>.agents/skills/{"*"}.md</code> <span class="manifest-desc">Codex skill files</span></li>
+		</ul>
+	</div>
+
+	<div class="manifest-group">
+		<div class="manifest-header">With <span class="manifest-flag">--recommended</span></div>
+		<ul class="manifest-list">
+			<li><code>.claude/agents/{"*"}.md</code> <span class="manifest-desc">bundled agent templates (not customized — need to also run <code>aspens customize agents</code> after)</span></li>
+			<li><code>.git/hooks/post-commit</code> <span class="manifest-desc">auto-runs <code>aspens doc sync</code> to keep context fresh on every commit</span></li>
+			<li><code>.claude/hooks/save-tokens-{"*"}.sh</code>, <code>.claude/commands/{"*"}.md</code>, <code>.aspens/sessions/</code> <span class="manifest-desc">reduces token usage across Claude Code sessions</span></li>
+		</ul>
+	</div>
+</div>
+
+</section>
+
+---
+
+
+---
+
+<section id="docs">
+
+## Docs and guides to get you started
+
+<div class="learn-grid">
+	<a href="/guides/quick-start/" class="learn-card">Quick Start</a>
+	<a href="/guides/how-it-works/" class="learn-card">How It Works</a>
+	<a href="/guides/skills/" class="learn-card">Skills</a>
+	<a href="/commands/doc-init/" class="learn-card">doc init</a>
+</div>
+
+</section>
+
+---
+
+<section id="faq">
+
+## FAQ
+
+<div class="faq-list">
+	<details class="faq-item">
+		<summary>Does aspens require hosting or any third party services?</summary>
+		<div class="faq-answer">No. Aspens is an open-source CLI. You use your own configured assistant for generation commands.</div>
+	</details>
+	<details class="faq-item">
+		<summary>Which assistants does it support today?</summary>
+		<div class="faq-answer">Claude Code and Codex are first-class targets. Aspens can generate target-specific repo context for both from a shared scan of the codebase.</div>
+	</details>
+	<details class="faq-item">
+		<summary>What parts of Aspens use an LLM?</summary>
+		<div class="faq-answer"><code>aspens scan</code> is deterministic. Commands that generate or refresh context, such as <code>doc init</code> and <code>doc sync</code>, use your configured coding-assistant backend.</div>
+	</details>
+	<details class="faq-item">
+		<summary>Who is Aspens for?</summary>
+		<div class="faq-answer">For anyone using AI coding tools regularly. The value shows up even for a solo maintainer if you want the repo context to persist across sessions.</div>
+	</details>
+	<details class="faq-item">
+		<summary>Can I just try it without messing my setup or generating files?</summary>
+		<div class="faq-answer">Yes. Run any generation command with <code>--dry-run</code> to preview what would be written without touching your repo.</div>
+	</details>
+	<details class="faq-item">
+		<summary>Can it modify my source code?</summary>
+		<div class="faq-answer">No. All writes are restricted to .claude/, .agents/, instruction files (CLAUDE.md/AGENTS.md), and .aspens.json. A path sanitizer enforces this — it cannot touch your application code.</div>
+	</details>
+	<details class="faq-item">
+		<summary>Is the generated output committed to my repo?</summary>
+		<div class="faq-answer">That's up to you. Skills and instruction files are regular files you can review, edit, or gitignore. Graph artifacts are auto-gitignored by default.</div>
+	</details>
+	<details class="faq-item">
+		<summary>Is it open source?</summary>
+		<div class="faq-answer">Yes. You can audit the full codebase on GitHub before running it.</div>
+	</details>
+</div>
+
+</section>
+
+<script is:inline>{`
+document.querySelectorAll('.install-copy').forEach(function(btn) {
+	var copyIcon = btn.querySelector('.icon-copy');
+	var checkIcon = btn.querySelector('.icon-check');
+	btn.addEventListener('click', function() {
+		var cmd = btn.dataset.cmd;
+		if (!cmd) return;
+		navigator.clipboard.writeText(cmd).then(function() {
+			btn.classList.add('copied');
+			if (copyIcon) copyIcon.style.display = 'none';
+			if (checkIcon) checkIcon.style.display = '';
+			setTimeout(function() {
+				btn.classList.remove('copied');
+				if (copyIcon) copyIcon.style.display = '';
+				if (checkIcon) checkIcon.style.display = 'none';
+			}, 2000);
+		});
+	});
+});
+`}</script>

@@ -1,0 +1,239 @@
+---
+/**
+ * Replaces Starlight's Search component with a horizontal navigation menu
+ * plus social share icons on the right.
+ */
+import type { Props } from '@astrojs/starlight/props';
+
+const currentPath = Astro.url.pathname;
+const isSplash = currentPath === '/' || currentPath === '/index.html';
+
+const splashLinks = [
+	{ label: 'Product', href: '#product' },
+	{ label: 'Architecture', href: '#architecture' },
+	{ label: 'Outputs', href: '#outputs' },
+	{ label: 'Docs', href: '#docs' },
+	{ label: 'FAQ', href: '#faq' },
+];
+
+const docLinks = [
+	{ label: 'Getting Started', href: '/guides/introduction/' },
+	{ label: 'Guides', href: '/guides/skills/' },
+	{ label: 'Commands', href: '/commands/scan/' },
+	{ label: 'Changelog', href: '/changelog/changelog/' },
+	{ label: 'Contributing', href: '/guides/contributing/' },
+];
+
+const shareUrl = 'https://aspenkit.dev';
+const shareText = 'aspens — repo context for AI coding agents';
+const encodedUrl = encodeURIComponent(shareUrl);
+const encodedText = encodeURIComponent(shareText);
+
+const shareLinks = [
+	{ label: 'Post on X', href: `https://x.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`, icon: 'x' },
+	{ label: 'Share on LinkedIn', href: `https://www.linkedin.com/feed/?shareActive=true&text=${encodedText}%20${encodedUrl}`, icon: 'linkedin' },
+	{ label: 'Post on Reddit', href: `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedText}`, icon: 'reddit' },
+	{ label: 'Submit to HN', href: `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${encodedText}`, icon: 'hn' },
+	{ label: 'Share on Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`, icon: 'facebook' },
+];
+
+function isActive(href: string) {
+	if (href === '/guides/introduction/') {
+		return ['/guides/introduction/', '/guides/quick-start/', '/guides/how-it-works/'].some(p => currentPath.startsWith(p));
+	}
+	if (href === '/guides/skills/') {
+		return ['/guides/skills/', '/guides/agents/', '/guides/target-support/', '/guides/save-tokens/', '/guides/faq/'].some(p => currentPath.startsWith(p));
+	}
+	if (href === '/commands/scan/') {
+		return currentPath.startsWith('/commands/');
+	}
+	return currentPath.startsWith(href);
+}
+---
+
+<div class="nav-wrapper">
+	{isSplash ? (
+		<nav class="top-nav splash-nav" aria-label="Main">
+			{splashLinks.map((link) => (
+				<a href={link.href}>{link.label}</a>
+			))}
+			<a href="/guides/introduction/" class="nav-docs-btn">Documentation</a>
+			<a href="https://github.com/aspenkit/aspens" target="_blank" rel="noopener noreferrer" class="nav-github-btn">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+				GitHub
+			</a>
+		</nav>
+	) : (
+		<nav class="top-nav" aria-label="Main">
+			{docLinks.map((link) => (
+				<a
+					href={link.href}
+					class:list={[{ active: isActive(link.href) }]}
+				>
+					{link.label}
+				</a>
+			))}
+		</nav>
+	)}
+
+	<div class="share-icons">
+		{shareLinks.map((link) => (
+			<a href={link.href} target="_blank" rel="noopener noreferrer" title={link.label} aria-label={link.label} class={`share-icon-btn icon-${link.icon}`}>
+				{link.icon === 'x' && <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>}
+				{link.icon === 'linkedin' && <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>}
+				{link.icon === 'reddit' && <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>}
+				{link.icon === 'hn' && <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0v24h24V0H0zm12.8 13.2V19h-1.6v-5.8L7.5 5.6h1.7l2.8 5.5 2.8-5.5h1.7l-3.7 7.6z"/></svg>}
+				{link.icon === 'facebook' && <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>}
+			</a>
+		))}
+		<button type="button" class="share-icon-btn copy-link-btn" title="Copy link" aria-label="Copy link" data-url={shareUrl}>
+			<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+		</button>
+	</div>
+</div>
+
+<script>
+	document.querySelectorAll('.copy-link-btn').forEach((btn) => {
+		btn.addEventListener('click', async () => {
+			const url = (btn as HTMLElement).dataset.url;
+			if (!url) return;
+			try {
+				await navigator.clipboard.writeText(url);
+				btn.classList.add('copied');
+				setTimeout(() => btn.classList.remove('copied'), 2000);
+			} catch { /* clipboard API not available */ }
+		});
+	});
+</script>
+
+<style>
+	.nav-wrapper {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		width: 100%;
+		position: relative;
+	}
+
+	.top-nav {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+
+	.top-nav a {
+		color: var(--sl-color-gray-2);
+		text-decoration: none;
+		font-size: 0.84rem;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		padding: 0.48rem 0.82rem;
+		border-radius: 999px;
+		transition: color 0.15s, background-color 0.15s, transform 0.15s;
+		white-space: nowrap;
+		position: relative;
+	}
+
+	.top-nav a:hover {
+		color: var(--sl-color-gray-1);
+		background-color: rgba(255, 255, 255, 0.78);
+		transform: translateY(-1px);
+	}
+
+	.top-nav a.active {
+		color: var(--sl-color-accent-high);
+		background-color: var(--sl-color-accent-low);
+		font-weight: 600;
+	}
+
+	.nav-docs-btn {
+		background: #0f172a !important;
+		color: #fff !important;
+		padding: 0.4rem 0.9rem !important;
+		border-radius: 0.5rem !important;
+		font-size: 0.82rem !important;
+		margin-left: 0.25rem;
+	}
+
+	.nav-docs-btn:hover {
+		background: #1e293b !important;
+		color: #fff !important;
+	}
+
+	.nav-github-btn {
+		display: inline-flex !important;
+		align-items: center !important;
+		gap: 0.4rem !important;
+		background: transparent !important;
+		border: 1px solid rgba(208, 218, 234, 0.9) !important;
+		color: var(--sl-color-gray-1) !important;
+		padding: 0.4rem 0.75rem !important;
+		border-radius: 0.5rem !important;
+		font-size: 0.82rem !important;
+	}
+
+	.nav-github-btn:hover {
+		background: rgba(255, 255, 255, 0.78) !important;
+		border-color: #91a9d3 !important;
+	}
+
+	.share-icons {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		margin-left: auto;
+	}
+
+	.share-icon-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 0.5rem;
+		border: none;
+		background: transparent;
+		color: var(--sl-color-gray-3);
+		text-decoration: none;
+		cursor: pointer;
+		transition: color 0.15s, background-color 0.15s, transform 0.15s;
+		padding: 0;
+		font-family: inherit;
+	}
+
+	.share-icon-btn svg {
+		width: 1.1rem;
+		height: 1.1rem;
+	}
+
+	.share-icon-btn:hover {
+		color: var(--sl-color-gray-1);
+		background-color: rgba(0, 0, 0, 0.06);
+		transform: translateY(-1px);
+	}
+
+	.share-icon-btn.copied {
+		color: var(--sl-color-accent);
+	}
+
+@media (max-width: 55rem) {
+		.top-nav a:not(.nav-docs-btn):not(.nav-github-btn) {
+			display: none;
+		}
+		.nav-docs-btn {
+			font-size: 0.72rem !important;
+			padding: 0.3rem 0.6rem !important;
+		}
+		.nav-github-btn {
+			font-size: 0.72rem !important;
+			padding: 0.3rem 0.6rem !important;
+		}
+		.nav-github-btn svg {
+			width: 14px !important;
+			height: 14px !important;
+		}
+		.share-icons {
+			display: none;
+		}
+	}
+</style>

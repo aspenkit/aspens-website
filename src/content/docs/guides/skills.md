@@ -65,9 +65,9 @@ Gotchas, anti-patterns, and hard rules. Things agents must follow to avoid bugs 
 
 For Claude Code, skills activate automatically through hooks:
 
-1. **`skill-activation-prompt.sh`** — runs on every prompt, checks edited files against `skill-rules.json`
-2. **`skill-activation-posttool.sh`** — runs after tool use, tracks which files have been touched in the session
-3. **Session-sticky skills** — once a skill activates, it stays active for the session
+1. **`skill-activation-prompt.sh`** — runs on every prompt, matches against `skill-rules.json` keywords, intents, and file patterns
+2. **`post-tool-use-tracker.sh`** — runs after file edits, tracks which domains have been touched in the session
+3. **Session-sticky skills** — once a skill activates via file editing, it stays active for the session
 
 ## Custom skills
 

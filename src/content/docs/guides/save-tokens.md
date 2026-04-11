@@ -24,11 +24,13 @@ This installs a set of session management tools that help reduce token usage in 
 ```
 .claude/
   hooks/
-    save-tokens-prompt.sh     # Token tracking on each prompt
-    save-tokens-posttool.sh   # Post-tool-use tracking
+    save-tokens-statusline.sh    # Token usage in the Claude Code UI
+    save-tokens-prompt-guard.sh  # Warning when approaching context limits
+    save-tokens-precompact.sh    # Prepares session state before compression
   commands/
-    compact.md                # Slash command for session compaction
-    handoff.md                # Slash command for session handoff
+    save-handoff.md              # Save session state for resuming later
+    resume-handoff.md            # Resume from a saved handoff
+    resume-handoff-latest.md     # Resume from the most recent handoff
 ```
 
 Plus entries in `.claude/settings.json` to wire up the hooks.
@@ -40,14 +42,14 @@ Save-tokens configuration is stored in `.aspens.json`:
 ```json
 {
   "saveTokens": {
-    "warnAt": 175000,
-    "compactAt": 200000
+    "warnAtTokens": 175000,
+    "compactAtTokens": 200000
   }
 }
 ```
 
-- **warnAt** — token count that triggers a usage warning
-- **compactAt** — token count that triggers compaction suggestion
+- **warnAtTokens** — token count that triggers a usage warning
+- **compactAtTokens** — token count that triggers compaction suggestion
 
 ## Install and remove
 

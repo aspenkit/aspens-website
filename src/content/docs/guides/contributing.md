@@ -5,7 +5,7 @@ description: How to contribute to aspens.
 
 ## Prerequisites
 
-- [Node.js 18+](https://nodejs.org)
+- [Node.js 20+](https://nodejs.org)
 - [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) (needed for `doc init`, `doc sync`, and `customize` commands)
 - Git
 

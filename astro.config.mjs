@@ -21,9 +21,6 @@ export default defineConfig({
 			social: [],
 			customCss: ['./src/styles/custom.css'],
 			lastUpdated: true,
-			editLink: {
-				baseUrl: 'https://github.com/aspenkit/aspens-website/edit/main/',
-			},
 			credits: true,
 			head: [
 				{

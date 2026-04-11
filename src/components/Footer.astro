@@ -2,6 +2,7 @@
 import EditLink from 'virtual:starlight/components/EditLink';
 import LastUpdated from 'virtual:starlight/components/LastUpdated';
 import Pagination from 'virtual:starlight/components/Pagination';
+import Analytics from '@vercel/analytics/astro';
 ---
 
 <footer class="sl-flex">
@@ -22,7 +23,94 @@ import Pagination from 'virtual:starlight/components/Pagination';
 			<a href="https://www.npmjs.com/package/aspens" target="_blank" rel="noopener noreferrer">npm</a>
 		</div>
 	</div>
+	<Analytics />
 </footer>
+
+<script>
+	import { track } from '@vercel/analytics';
+
+	// GitHub clicks
+	document.querySelectorAll('a[href*="github.com/aspenkit"]').forEach((link) => {
+		link.addEventListener('click', () => {
+			track('github_click', { location: link.closest('.site-footer') ? 'footer' : link.closest('.top-nav') ? 'nav' : 'page' });
+		});
+	});
+
+	// Documentation button
+	document.querySelectorAll('.nav-docs-btn').forEach((link) => {
+		link.addEventListener('click', () => track('docs_click'));
+	});
+
+	// npm link
+	document.querySelectorAll('a[href*="npmjs.com"]').forEach((link) => {
+		link.addEventListener('click', () => track('npm_click'));
+	});
+
+	// Copy install command
+	document.querySelectorAll('.install-copy').forEach((btn) => {
+		btn.addEventListener('click', () => track('copy_install'));
+	});
+
+	// Share buttons (X, LinkedIn, Reddit, HN, Facebook, copy link)
+	document.querySelectorAll('.share-icon-btn').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const title = (btn as HTMLElement).getAttribute('title') || (btn as HTMLElement).getAttribute('aria-label') || 'unknown';
+			track('share_click', { platform: title });
+		});
+	});
+
+	// FAQ opens
+	document.querySelectorAll('.faq-item summary').forEach((summary) => {
+		summary.addEventListener('click', () => {
+			const text = summary.textContent?.trim().slice(0, 50) || '';
+			track('faq_open', { question: text });
+		});
+	});
+
+	// Learn/docs cards
+	document.querySelectorAll('.learn-card').forEach((link) => {
+		link.addEventListener('click', () => {
+			track('docs_card_click', { label: link.textContent?.trim() || '' });
+		});
+	});
+
+	// Nav section links (Product, Architecture, Outputs, etc.)
+	document.querySelectorAll('.splash-nav a:not(.nav-docs-btn):not(.nav-github-btn)').forEach((link) => {
+		link.addEventListener('click', () => {
+			track('nav_section_click', { section: link.textContent?.trim() || '' });
+		});
+	});
+
+	// Sidebar navigation (doc pages)
+	document.querySelectorAll('.sidebar-pane a').forEach((link) => {
+		link.addEventListener('click', () => {
+			track('sidebar_click', { page: link.textContent?.trim() || '' });
+		});
+	});
+
+	// MIT License link
+	document.querySelectorAll('a[href*="opensource.org/licenses/MIT"]').forEach((link) => {
+		link.addEventListener('click', () => track('license_click'));
+	});
+
+	// Maintainer link
+	document.querySelectorAll('a[href*="github.com/mvoutov"]').forEach((link) => {
+		link.addEventListener('click', () => track('maintainer_click'));
+	});
+
+	// Pagination (prev/next page)
+	document.querySelectorAll('.pagination-links a').forEach((link) => {
+		link.addEventListener('click', () => {
+			const title = link.querySelector('.link-title')?.textContent?.trim() || '';
+			track('pagination_click', { page: title });
+		});
+	});
+
+	// Search (if user opens search)
+	document.querySelectorAll('[data-pagefind-ui], .pagefind-ui__search-input').forEach((input) => {
+		input.addEventListener('focus', () => track('search_focus'));
+	});
+</script>
 
 <style>
 	@layer starlight.core {

@@ -45,6 +45,17 @@ Yes. Use `--target all` to generate both `CLAUDE.md` + `.claude/skills/` and `AG
 
 By default, aspens asks whether to improve, rewrite, or skip existing docs. With `--recommended`, it defaults to improving (merging new info into existing content).
 
+### Will my edits to CLAUDE.md / AGENTS.md survive `doc sync`?
+
+Yes, with two exceptions. aspens deterministically regenerates two sections on every `doc init` and `doc sync`:
+
+- `## Skills` — rebuilt from the on-disk skills list (variants like `## Skills Reference` are also stripped).
+- `## Behavior` — rebuilt from a fixed set of coding guardrails baked into aspens.
+
+Everything else — your own H2 sections, prose, command lists, conventions — is preserved untouched.
+
+**Where to add custom guidance:** put it under your own H2 heading (e.g. `## Workflow`, `## Style`, `## Project Behavior`). Do not edit content inside `## Skills` or `## Behavior` — those changes will be overwritten on the next sync.
+
 ## Sync
 
 ### How does the post-commit hook work?

@@ -13,7 +13,7 @@ AI coding agents (Claude Code, Codex) work best when they understand your codeba
 - Waste time rediscovering key files every session
 - Make the same mistakes teams keep manually correcting
 
-Most teams solve this by writing a `CLAUDE.md` or `AGENTS.md` file by hand. This works — until the code changes and the docs don't. Stale context is worse than no context: it actively misleads the agent.
+People solve this by writing a `CLAUDE.md` or `AGENTS.md` file by hand. This works — until the code changes and the docs don't. Stale context is worse than no context: it actively misleads the agent.
 
 ## The solution
 

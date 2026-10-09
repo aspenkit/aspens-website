@@ -3,7 +3,7 @@ title: aspens doc init
 description: Generate agent context from the repo itself.
 ---
 
-Generate agent context from the repo itself. `doc init` scans the codebase, discovers the architecture and feature domains, then writes instructions and skills for Claude, Codex, or both.
+Generate agent context from the repo itself. `doc init` scans the codebase, discovers the architecture and feature domains, then writes instructions and skills for your chosen target — Claude, Codex, or OpenCode.
 
 ## Usage
 
@@ -81,8 +81,8 @@ $ aspens doc init
 | Option | Description |
 |---|---|
 | `--recommended` | Use the recommended target, strategy, and generation mode |
-| `--target <target>` | Output target: `claude`, `codex`, or `all` |
-| `--backend <backend>` | Generation backend: `claude` or `codex` |
+| `--target <target>` | Output target: `claude`, `codex`, or `opencode` (one per run) |
+| `--backend <backend>` | Generation backend: `claude`, `codex`, or `opencode` |
 | `--dry-run` | Preview without writing files |
 | `--force` | Overwrite existing skills |
 | `--mode <mode>` | `all`, `chunked`, or `base-only` (skips interactive prompt) |

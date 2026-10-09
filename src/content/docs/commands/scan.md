@@ -66,9 +66,9 @@ $ aspens scan
 
 ## What it detects
 
-- **Languages** — JavaScript, TypeScript, Python, and more
+- **Languages** — JavaScript, TypeScript, Python, Go, Rust, Ruby, C#, Java, Swift, PHP, and Elixir (Kotlin and F# files are also counted toward domains)
 - **Frameworks** — Next.js, React, Vue, Tailwind, Prisma, Django, FastAPI, etc.
 - **Structure** — source roots, entry points, key directories
-- **Import graph** — hub files, domain clusters, coupling, hotspots
+- **Import graph** — hub files, domain clusters, coupling, hotspots (JS/TS/Python)
 - **Health** — missing `.gitignore`, exposed `.env`, unignored `node_modules`
 - **Existing context** — whether `.claude/` or `AGENTS.md` already exist

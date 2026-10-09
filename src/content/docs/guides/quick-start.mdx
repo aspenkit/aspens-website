@@ -33,7 +33,7 @@ This is the actual setup command. `--recommended` is the fastest path:
    ```
 
 2. **Run the setup** If you want to customize the setup, run without `--recommended` and follow the prompts. Later, you also need to manually add 
-(1) agents, (2) doc sync hook, and (3) save-tokens hooks if you want those features. Also, by default --recommended will prioritize Claude (unless only Codex Cli is installed). You will need to run `doc init --target=codex` to get the Codex agent and commands as well.
+(1) agents, (2) doc sync hook, and (3) save-tokens hooks if you want those features. Also, by default `--recommended` will prioritize Claude (unless only the Codex or OpenCode CLI is installed). Run `doc init --target=codex` or `--target=opencode` to generate for those targets as well — one target per run.
 
    ```bash
    npx aspens doc init --recommended
@@ -84,6 +84,17 @@ npx aspens add command dev-docs      # Add slash commands
           - base/SKILL.md
           - auth/SKILL.md
           - billing/SKILL.md
+          - …
+      - AGENTS.md Top-level repo instructions
+    </FileTree>
+  </TabItem>
+  <TabItem label="OpenCode">
+    <FileTree>
+      - .claude/
+        - skills/
+          - base/skill.md
+          - auth/skill.md
+          - billing/skill.md
           - …
       - AGENTS.md Top-level repo instructions
     </FileTree>

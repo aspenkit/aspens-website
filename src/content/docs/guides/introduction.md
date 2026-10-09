@@ -3,7 +3,7 @@ title: Introduction
 description: What aspens is and why it exists.
 ---
 
-**aspens** is a CLI that keeps coding-agent context accurate as your codebase changes. It scans repos, generates project-specific instructions and skills for Claude Code and Codex CLI, and keeps them fresh.
+**aspens** is a CLI that keeps coding-agent context accurate as your codebase changes. It scans repos, generates project-specific instructions and skills for Claude Code, Codex, and OpenCode, and keeps them fresh.
 
 ## The problem
 
@@ -40,8 +40,10 @@ Skills are concise markdown files (~35 lines) that give agents the context they 
 aspens supports multiple agent environments through output **targets**:
 
 - `claude` — writes `CLAUDE.md` + `.claude/skills/` + hooks
-- `codex` — writes `AGENTS.md` + `.agents/skills/` + directory scoped files
-- `all` — generates both from one run
+- `codex` — writes `AGENTS.md` + `.agents/skills/` + directory-scoped files
+- `opencode` — writes `AGENTS.md` + `.claude/skills/`
+
+Pick one target per run (the `all` shortcut was removed in 0.9.0).
 
 ### Backends
 
@@ -49,6 +51,7 @@ The **backend** is which LLM CLI generates the content. Currently supported:
 
 - `claude` — uses Claude Code CLI
 - `codex` — uses Codex CLI
+- `opencode` — uses OpenCode CLI
 
 The target and backend are independent: you can generate Codex-format docs using the Claude backend.
 

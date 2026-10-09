@@ -71,6 +71,6 @@ The graph is rebuilt on every `doc init` and `doc sync` run. It produces three a
 
 - **`graph.json`** — full dependency map with hub files, clusters, and edges
 - **`graph-index.json`** — compact lookup table for quick file-to-domain resolution
-- **`code-map.md`** — human-readable codebase overview (hub files, domain clusters, hotspots)
+- **`code-map.md`** — human-readable codebase overview. As of 0.8.0 it's churn-stable: it carries only structural data (domain clusters and framework entry points), so it doesn't rewrite on every commit. Hub-file rankings and hotspots live in `graph.json`.
 
 A graph context hook can inject relevant graph data into every Claude prompt, so the agent knows about hub files and neighbors when editing a file.

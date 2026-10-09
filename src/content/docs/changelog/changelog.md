@@ -3,6 +3,90 @@ title: Changelog
 description: Release history for aspens.
 ---
 
+## [0.9.1] - 2026-09-10
+
+### Fixed
+- **`doc sync` no longer deletes hand-written CLAUDE.md/AGENTS.md lines** — the `## Skills` and `## Behavior` sections now merge: canonical generated entries are refreshed in place while every hand-added line is preserved in order. Repeated syncs are byte-stable across LF, CRLF, and mixed line endings.
+- **Windows skill paths** — logical paths are normalized to POSIX separators, fixing broken skill references, import-graph nodes, and silently dropped domain skills on Windows
+- **`doc sync` outside a Git repo** — now shows the proper "Not a git repository" remediation message instead of a raw `TypeError`
+
+### Changed
+- README logo renders on npmjs.com — switched to an absolute image URL
+
+### Security
+- Bumped `vitest` to `4.1.11` (dev-only), clearing the `@vitest/mocker` path-traversal advisory; `npm audit` reports 0 vulnerabilities
+
+---
+
+## [0.9.0] - 2026-08-15
+
+### Added
+- **OpenCode CLI support** — `opencode` is now a supported generation backend and output target across `doc init`, `doc sync`, and `doc impact`. The target writes `AGENTS.md` + `.claude/skills`.
+- **`.php` recognized as a code-bearing extension** — PHP files are now counted by the scanner and domain discovery
+
+### Changed
+- **`--target all` removed** — with three targets (and `codex`/`opencode` both owning `AGENTS.md`), `all` was ambiguous. Pick an explicit target: `--target claude|codex|opencode`. Run `doc init --target <one>` per target instead.
+
+### Fixed
+- **OpenCode runner hardening** — safe-charset guard on `--model`, buffered JSON events across stdout chunks so generated text isn't lost, rate-limit classification, and safer temp-file cleanup
+- **Target/backend selection generalized** — the backend picker, target multiselect, and config recovery handle all three targets; conflicting shared-output targets (`codex` + `opencode` both writing `AGENTS.md`) are rejected with a clear error
+
+### Security
+- Dev-dependency advisories for `postcss`, `vite`, and `nanoid` resolved; `npm audit` reports 0 vulnerabilities
+
+---
+
+## [0.8.0] - 2026-05-11
+
+### Added
+- **`triggers:` YAML frontmatter for skills** — activation rules (file globs, keywords, `alwaysActivate`) now live in frontmatter instead of a free-form `## Activation` section. Legacy `## Activation` sections still parse for backwards compatibility; new skills emit the frontmatter form.
+- **Language-agnostic domain clusters in `code-map.md`** — clusters now render for any language, not just Next.js repos
+- **Next.js entry-point detection** — App Router, Pages Router, and special files (`middleware`, `instrumentation`) are recognized as implicit graph roots and surfaced under **Framework entry points**
+- **Dedicated Python and TypeScript import parsers** — richer import extraction (re-exports, barrels, relative imports), plus `tsconfig`/`jsconfig` `paths:` alias resolution with `extends` chain support
+- **No-op diff classifier** — `doc sync` skips the LLM call entirely on lockfile-only or non-code-bearing diffs
+- **Published-content sanitizer** — every disk write strips forbidden blocks (`## Activation`, `## Key Files`, count-bearing tables) from skill/instruction files while keeping them in `code-map.md`
+- **Skills-section completeness contract** — root instruction files list every on-disk skill on every sync, so unchanged skills survive partial syncs
+- **Multi-target parity validator** — checks that every configured target publishes the same set of logical files
+
+### Changed
+- **`code-map.md` is now churn-stable** — file counts, edge counts, hub-file rankings, hotspots, and totals removed; only structural data (clusters + framework entries) survives
+- **`.cjs` / `.mjs` treated as first-class** across the import graph, source-extension set, and alias resolver
+
+### Fixed
+- AGENTS.md skill list no longer truncates on a partial `doc sync`
+- Path-traversal in `tsconfig` alias resolution blocked — a crafted `@/*` → `../../../outside/*` can no longer produce graph nodes outside the repo
+- Next.js Pages Router walker no longer recurses into hidden directories (`.next/`, `.vercel/`)
+- Broken symlinks in `.claude/agents` or `.claude/skills` no longer abort `aspens customize agents`
+
+---
+
+## [0.7.3] - 2026-04-25
+
+### Fixed
+- **`doc sync` crash on unstructured LLM response** — an explanatory reply instead of `<file>` tags is now treated as "no updates needed" instead of throwing
+- **Codex `AGENTS.md` missing most content** — the codex transform now loads `CLAUDE.md` from disk when it isn't among the canonical files, so incremental syncs emit full instructions instead of ~17 lines
+
+---
+
+## [0.7.2] - 2026-04-16
+
+### Fixed
+- **Nested-project source root detection** — layouts like .NET's `apps/MyApp/MyApp/MyApp.csproj` now promote the inner project dir as the source root, so `Controllers/`, `Services/`, etc. surface as first-class domains
+- **`scan` shows domains for non-JS/TS/Python projects** — the pretty-printer falls back to filesystem domains under a `Domains (by filesystem)` heading when the import graph returns no clusters (C#/Java/Swift/PHP/Elixir)
+
+---
+
+## [0.7.1] - 2026-04-16
+
+### Fixed
+- **Domain discovery for C#, Java, Swift, PHP, and Elixir** — the scanner now recognizes `.cs`, `.java`, `.swift`, `.php`, `.ex`, `.exs`, `.mjs`, and `.cjs` as source files (Kotlin and F# are counted too), so `doc init` reports real domains instead of zero for these languages
+- **Build-output skipping** — repo-size estimation and domain detection now skip `bin/`, `obj/`, and `target/`, keeping .NET / Java / Rust build artifacts out of module lists
+
+### Known Limitations
+- Import graph, hub files, and cluster detection remain JS/TS/Python-only — other languages generate skills and domains but a minimal atlas. Full multi-language import parsing is planned.
+
+---
+
 ## [0.7.0] - 2026-04-10
 
 ### Added

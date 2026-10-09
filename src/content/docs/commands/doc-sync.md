@@ -86,6 +86,6 @@ Useful after major refactors or when skills have drifted significantly.
 If your repo is configured for multiple targets, `doc sync` updates all configured outputs from one run:
 
 ```bash
-# Syncs both Claude and Codex docs
+# Syncs every target configured in .aspens.json
 npx aspens doc sync
 ```

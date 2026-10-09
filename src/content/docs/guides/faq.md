@@ -7,11 +7,11 @@ description: Frequently asked questions about aspens.
 
 ### Does aspens require an LLM to run?
 
-`aspens scan` is fully deterministic — no LLM, instant, free. Commands that generate or update content (`doc init`, `doc sync`, `customize agents`) need a backend CLI like Claude Code or Codex.
+`aspens scan` is fully deterministic — no LLM, instant, free. Commands that generate or update content (`doc init`, `doc sync`, `customize agents`) need a backend CLI: Claude Code, Codex, or OpenCode.
 
 ### What languages does aspens support?
 
-The scanner detects JavaScript, TypeScript, Python, Go, Rust, and Ruby. The import graph currently parses JS/TS and Python imports. Skills are generated for any language the backend LLM can understand.
+Domain discovery works across many languages — the scanner counts JavaScript, TypeScript, Python, Go, Rust, Ruby, C#, Java, Swift, PHP, Elixir, Kotlin, and F# as source files, so `doc init` finds real domains in all of them. The import graph (hub files, clusters, coupling) currently parses JS/TS and Python imports; other languages generate skills and domains but a lighter atlas. Skills themselves are generated for any language the backend LLM can understand.
 
 ### Does aspens work in monorepos?
 
@@ -37,9 +37,9 @@ For Claude Code, hooks check which files you're editing against `skill-rules.jso
 
 ## Targets
 
-### Can I use Claude and Codex at the same time?
+### Can I use more than one target?
 
-Yes. Use `--target all` to generate both `CLAUDE.md` + `.claude/skills/` and `AGENTS.md` + `.agents/skills/` from one run. `doc sync` updates all configured targets.
+Yes, but you configure them one at a time. `--target all` was removed in 0.9.0 — pick an explicit target (`claude`, `codex`, or `opencode`) and run `doc init` once per target. `doc sync` then updates all configured targets on every commit. Note that `codex` and `opencode` both write `AGENTS.md`, so they can't coexist in the same repo.
 
 ### I already have CLAUDE.md — will aspens overwrite it?
 
@@ -47,14 +47,16 @@ By default, aspens asks whether to improve, rewrite, or skip existing docs. With
 
 ### Will my edits to CLAUDE.md / AGENTS.md survive `doc sync`?
 
-Yes, with two exceptions. aspens deterministically regenerates two sections on every `doc init` and `doc sync`:
+Yes. Everything you write — your own H2 sections, prose, command lists, conventions — is preserved untouched.
 
-- `## Skills` — rebuilt from the on-disk skills list (variants like `## Skills Reference` are also stripped).
-- `## Behavior` — rebuilt from a fixed set of coding guardrails baked into aspens.
+aspens manages two sections deterministically on every `doc init` and `doc sync`:
 
-Everything else — your own H2 sections, prose, command lists, conventions — is preserved untouched.
+- `## Skills` — the generated skill list, rebuilt from the on-disk skills.
+- `## Behavior` — a fixed set of coding guardrails baked into aspens.
 
-**Where to add custom guidance:** put it under your own H2 heading (e.g. `## Workflow`, `## Style`, `## Project Behavior`). Do not edit content inside `## Skills` or `## Behavior` — those changes will be overwritten on the next sync.
+As of 0.9.1 these two sections **merge** instead of being rewritten wholesale: aspens refreshes its own generated entries in place and preserves any lines you added by hand, in order (byte-stable across repeated syncs and LF/CRLF line endings). So a note you add under `## Behavior` sticks around — but if you edit one of aspens' *own* generated entries, that specific line is refreshed back on the next sync.
+
+**Where to add custom guidance:** to be safe, put it under your own H2 heading (e.g. `## Workflow`, `## Style`, `## Project Behavior`), which aspens never touches.
 
 ## Sync
 

@@ -28,7 +28,7 @@ Same `.claude/skills/`, `CLAUDE.md` structure that Claude Code already discovers
 
 ## Multi-backend runtime
 
-aspens shells out to `claude -p` (headless Claude Code) or `codex exec` for LLM operations. This means users need at least one of these CLIs installed. The upside: zero API key management, uses whatever plan the user has, supports all Claude models.
+aspens shells out to `claude -p` (headless Claude Code), `codex exec`, or `opencode run` for LLM operations. This means users need at least one of these CLIs installed. The upside: zero API key management, uses whatever plan the user has, supports all Claude models.
 
 A future direct API mode is under consideration for CI/CD use cases.
 

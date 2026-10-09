@@ -30,10 +30,11 @@ priority = fanIn * 3.0 + exportCount * 1.5 + isEntryPoint * 10.0 + gitChurn * 2.
 
 ## Runner
 
-`runLLM()` dispatches to `runClaude()` or `runCodex()` based on configured backend:
+`runLLM()` dispatches to `runClaude()`, `runCodex()`, or `runOpenCode()` based on the configured backend:
 
 - **Claude:** `claude -p --verbose --output-format stream-json`
 - **Codex:** `codex exec --json --sandbox read-only --ephemeral`
+- **OpenCode:** `opencode run --format json` (prompt passed via a `-f` file, stdin disabled to avoid a startup hang)
 
 Auto-scales timeout by repo size. Parses `<file path="...">content</file>` tags. Enforces path safety (writes only to `.claude/`, `.agents/`, instruction files).
 
@@ -43,8 +44,9 @@ Auto-scales timeout by repo size. Parses `<file path="...">content</file>` tags.
 
 - `claude` target → `.claude/skills/`, `CLAUDE.md`
 - `codex` target → `.agents/skills/`, `AGENTS.md`
+- `opencode` target → `.claude/skills/`, `AGENTS.md`
 
-You can use Claude as backend to generate Codex output, or vice versa.
+You can use Claude as backend to generate Codex output, or vice versa. Because `codex` and `opencode` both own `AGENTS.md`, they can't be configured together in one repo.
 
 ## Key dependencies
 
@@ -55,4 +57,4 @@ You can use Claude as backend to generate Codex output, or vice versa.
 | `@clack/prompts` | Interactive terminal prompts |
 | `picocolors` | Terminal colors |
 
-Plus `claude` CLI or `codex` CLI at runtime for LLM operations.
+Plus one of the `claude`, `codex`, or `opencode` CLIs at runtime for LLM operations.
